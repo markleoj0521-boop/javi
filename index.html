@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Javi's Christening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky-top:#bfe3f7;
+    --sky-deep:#5aa9d6;
+    --card:#fffbf3;
+    --wood-red:#c1443b;
+    --mustard:#e7a93e;
+    --buzz-green:#2f8f63;
+    --ink:#3b2a1e;
+  }
+  *{box-sizing:border-box;}
+  html{
+    scroll-behavior:smooth;
+  }
+  body{
+    margin:0;
+    font-family:'Nunito',sans-serif;
+    color:var(--ink);
+    overflow-x:hidden;
+    position:relative;
+  }
+  #bgLayer{
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    z-index:-1;
+    background-color:var(--sky-top);
+    background-image:url('toy_story_bg.jpg');
+    background-size:100% 100%;
+    background-position:top center;
+    background-repeat:no-repeat;
+    filter:saturate(1.5) contrast(1.2) brightness(0.97);
+  }
+  h1,h2,h3{
+    font-family:'Fredoka',sans-serif;
+    margin:0;
+    font-weight:600;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:linear-gradient(180deg,rgba(234,246,253,0.35) 0%, rgba(191,227,247,0.4) 55%, rgba(90,169,214,0.45) 100%);
+    padding:64px 0 90px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .cloud{position:absolute;opacity:0.9;}
+  .cloud svg{display:block;width:100%;height:100%;}
+  .star{position:absolute;color:var(--mustard);font-size:20px;opacity:0.85;}
+  .patch{
+    position:relative;z-index:2;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--wood-red);
+    color:#fff8ec;
+    font-family:'Fredoka',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    padding:8px 20px;
+    border-radius:999px;
+    box-shadow:0 3px 0 #8f2f28;
+    margin-bottom:22px;
+  }
+  .patch svg{width:16px;height:16px;stroke:#fff8ec;fill:none;stroke-width:2;}
+  .hero h1{
+    position:relative;
+    z-index:2;
+    font-size:clamp(2.4rem,8vw,3.6rem);
+    line-height:1.05;
+    color:var(--ink);
+    text-shadow:2px 2px 0 rgba(255,255,255,0.6);
+  }
+  .hero h1 span{color:var(--wood-red);}
+  .hero p.sub{
+    position:relative;z-index:2;
+    font-size:1.15rem;
+    font-weight:700;
+    margin-top:14px;
+    color:#2a4a63;
+  }
+  .hero p.venue{
+    position:relative;z-index:2;
+    font-size:0.98rem;
+    margin-top:6px;
+    color:#3a2e2a;
+    opacity:0.85;
+  }
+  .hero .tagline{
+    position:relative;z-index:2;
+    font-family:'Fredoka',sans-serif;
+    font-size:0.95rem;
+    color:var(--buzz-green);
+    margin-top:16px;
+    font-weight:600;
+  }
+
+  /* countdown - styled like alphabet toy blocks */
+  .countdown{
+    position:relative;z-index:2;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-top:22px;
+    flex-wrap:wrap;
+  }
+  .block{
+    background:#fff8ec;
+    border:3px solid var(--ink);
+    border-radius:14px;
+    width:76px;
+    padding:12px 0;
+    box-shadow:0 4px 0 var(--ink);
+  }
+  .block .num{
+    font-family:'Fredoka',sans-serif;
+    font-size:1.8rem;
+    font-weight:700;
+    color:var(--wood-red);
+  }
+  .block .lab{
+    font-size:0.62rem;
+    font-weight:800;
+    letter-spacing:0.3px;
+    color:var(--ink);
+    opacity:0.75;
+    margin-top:2px;
+  }
+
+  /* scalloped divider - reads as clouds */
+  .scallop{
+    display:block;
+    width:100%;
+    height:34px;
+    margin-top:-2px;
+  }
+
+  section{padding:52px 0;}
+  .sky-section{background:rgba(90,169,214,0.58);}
+  .card-section{background:rgba(255,248,236,0.6);}
+
+  .section-title{
+    text-align:center;
+    font-size:1.7rem;
+    margin-bottom:8px;
+  }
+  .section-sub{
+    text-align:center;
+    font-size:0.95rem;
+    opacity:0.8;
+    margin-bottom:30px;
+  }
+  .light-text .section-title,.light-text .section-sub{color:#fff8ec;}
+
+  /* details card - plaid stitch accent like Woody's shirt */
+  .details-card{
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 6px 0 var(--ink);
+    position:relative;
+  }
+  .details-card::before{
+    content:"";
+    position:absolute;
+    top:-3px;left:22px;right:22px;
+    height:6px;
+    background:repeating-linear-gradient(90deg,var(--mustard) 0 14px, var(--wood-red) 14px 28px);
+    border-radius:3px;
+  }
+  .detail-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:2px dashed rgba(59,42,30,0.2);
+  }
+  .detail-row:last-child{border-bottom:none;}
+  .detail-icon{
+    flex:0 0 auto;
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--buzz-green);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .detail-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;}
+  .detail-text .label{font-weight:800;font-size:0.95rem;}
+  .detail-text .value{font-size:0.9rem;opacity:0.85;}
+
+  /* rsvp form */
+  .form-card{
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 6px 0 var(--ink);
+  }
+  label{
+    display:block;
+    font-weight:800;
+    font-size:0.85rem;
+    margin:16px 0 6px;
+  }
+  label:first-child{margin-top:0;}
+  input[type=text],input[type=number],textarea{
+    width:100%;
+    padding:11px 14px;
+    border-radius:12px;
+    border:2px solid rgba(59,42,30,0.3);
+    font-family:'Nunito',sans-serif;
+    font-size:0.95rem;
+    background:#fffef9;
+  }
+  input:focus,textarea:focus{outline:3px solid var(--mustard);outline-offset:1px;border-color:var(--ink);}
+  textarea{resize:vertical;min-height:70px;}
+  .toggle-row{display:flex;gap:10px;margin-top:6px;}
+  .toggle-btn{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    border:2px solid rgba(59,42,30,0.3);
+    background:#fffef9;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.92rem;
+    cursor:pointer;
+    text-align:center;
+  }
+  .toggle-btn.active-yes{background:var(--buzz-green);color:#fff;border-color:var(--buzz-green);}
+  .toggle-btn.active-no{background:var(--wood-red);color:#fff;border-color:var(--wood-red);}
+  .submit-btn{
+    margin-top:22px;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:var(--wood-red);
+    color:#fff8ec;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:1.05rem;
+    cursor:pointer;
+    box-shadow:0 4px 0 #8f2f28;
+  }
+  .submit-btn:active{transform:translateY(3px);box-shadow:none;}
+  .submit-btn:disabled{opacity:0.6;cursor:default;}
+  .deadline-note{
+    text-align:center;font-size:0.82rem;opacity:0.7;margin-top:14px;
+  }
+  .confirm-msg{
+    display:none;
+    margin-top:16px;
+    background:#e9f7ef;
+    border:2px solid var(--buzz-green);
+    color:#215d43;
+    padding:12px 14px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:0.9rem;
+    text-align:center;
+  }
+
+  /* message wall */
+  .msg-form{margin-bottom:34px;}
+  .wall{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  @media(max-width:520px){.wall{grid-template-columns:1fr;}}
+  .note{
+    background:#fffef2;
+    border:2px solid rgba(59,42,30,0.25);
+    border-radius:4px 16px 4px 16px;
+    padding:16px;
+    font-size:0.88rem;
+    box-shadow:2px 3px 0 rgba(59,42,30,0.15);
+  }
+  .note .who{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--wood-red);margin-bottom:4px;}
+  .note .body{opacity:0.9;line-height:1.4;}
+  .wall-empty{
+    text-align:center;
+    grid-column:1/-1;
+    opacity:0.7;
+    font-style:italic;
+    padding:20px 0;
+  }
+
+  /* gallery */
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+  }
+  @media(max-width:480px){.gallery{grid-template-columns:repeat(2,1fr);}}
+  .polaroid{
+    background:#fff;
+    border:2px solid var(--ink);
+    border-radius:10px;
+    padding:8px 8px 16px;
+    box-shadow:0 4px 0 rgba(59,42,30,0.2);
+    text-align:center;
+  }
+  .polaroid .frame{
+    aspect-ratio:1/1;
+    background:linear-gradient(135deg,var(--sky-top),var(--sky-deep));
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:8px;
+  }
+  .polaroid .frame svg{width:34%;stroke:#fff8ec;fill:none;stroke-width:1.6;opacity:0.85;}
+  .polaroid .cap{font-size:0.72rem;font-weight:800;opacity:0.7;}
+
+  footer{
+    text-align:center;
+    padding:40px 24px 50px;
+    background:rgba(90,169,214,0.75);
+    color:#fff8ec;
+  }
+  footer .thanks{font-family:'Fredoka',sans-serif;font-size:1.3rem;margin-bottom:6px;}
+  footer .small{font-size:0.8rem;opacity:0.85;}
+
+  /* ================= ENVELOPE INTRO ================= */
+  body.locked{overflow:hidden;height:100vh;}
+  #introOverlay{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:linear-gradient(180deg,#eaf6fd 0%, var(--sky-top) 55%, var(--sky-deep) 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transition:opacity 0.6s ease;
+  }
+  #introOverlay.hide{
+    opacity:0;
+    pointer-events:none;
+  }
+  .intro-stars .star{position:absolute;color:var(--mustard);font-size:20px;opacity:0.85;}
+
+  .intro-title{
+    font-family:'Fredoka',sans-serif;
+    font-size:1.3rem;
+    color:var(--ink);
+    text-shadow:2px 2px 0 rgba(255,255,255,0.6);
+    margin-bottom:26px;
+    text-align:center;
+    padding:0 20px;
+  }
+
+  /* envelope */
+  .envelope-wrap{
+    position:relative;
+    width:260px;
+    height:180px;
+    cursor:pointer;
+    perspective:1200px;
+  }
+  .envelope-wrap .pulse{
+    position:absolute;
+    inset:-14px;
+    border:3px dashed var(--mustard);
+    border-radius:16px;
+    animation:pulse 1.8s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1);opacity:0.6;}
+    50%{transform:scale(1.04);opacity:1;}
+  }
+  .env-body{
+    position:absolute;
+    inset:0;
+    background:var(--wood-red);
+    border:3px solid var(--ink);
+    border-radius:12px;
+    box-shadow:0 6px 0 #8f2f28;
+    overflow:hidden;
+  }
+  .env-body::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:100%;
+    background:
+      linear-gradient(135deg, transparent 49.5%, rgba(0,0,0,0.12) 50%),
+      linear-gradient(-135deg, transparent 49.5%, rgba(0,0,0,0.12) 50%);
+    background-size:100% 60%;
+    background-position:top left, top right;
+    background-repeat:no-repeat;
+  }
+  .env-letter{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:8px;
+    top:34%;
+    background:#fff8ec;
+    border:2px solid var(--ink);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:top 0.5s cubic-bezier(.2,.9,.3,1.2);
+    z-index:1;
+  }
+  .env-letter svg{width:34%;stroke:var(--wood-red);fill:none;stroke-width:1.6;}
+  .env-flap{
+    position:absolute;
+    top:0;left:0;right:0;
+    height:52%;
+    background:var(--wood-red);
+    border:3px solid var(--ink);
+    border-top:none;
+    border-radius:0 0 4px 4px;
+    clip-path:polygon(0 0, 50% 78%, 100% 0);
+    transform-origin:top center;
+    transition:transform 0.6s cubic-bezier(.3,.9,.4,1.1);
+    z-index:2;
+    box-shadow:0 3px 0 rgba(0,0,0,0.15) inset;
+  }
+  .seal{
+    position:absolute;
+    top:36%;left:50%;
+    transform:translate(-50%,-50%);
+    width:46px;height:46px;
+    background:var(--mustard);
+    border:3px solid var(--ink);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    z-index:3;
+    box-shadow:0 3px 0 #a97621;
+    transition:opacity 0.3s ease, transform 0.3s ease;
+  }
+  .seal svg{width:22px;height:22px;fill:#fff8ec;stroke:none;}
+
+  .envelope-wrap.opening .env-flap{
+    transform:rotateX(-165deg);
+  }
+  .envelope-wrap.opening .seal{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(0.4);
+  }
+  .envelope-wrap.opening .env-letter{
+    top:-55%;
+  }
+
+  .tap-hint{
+    margin-top:24px;
+    font-family:'Fredoka',sans-serif;
+    font-size:0.95rem;
+    font-weight:600;
+    color:var(--buzz-green);
+  }
+
+  /* video modal */
+  #videoOverlay{
+    position:fixed;
+    inset:0;
+    z-index:9998;
+    background:rgba(20,20,20,0.92);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    padding:20px;
+  }
+  #videoOverlay.show{display:flex;}
+  .video-frame{
+    width:100%;
+    max-width:480px;
+    background:#000;
+    border:4px solid var(--mustard);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 0 rgba(0,0,0,0.4);
+  }
+  .video-frame video{
+    display:block;
+    width:100%;
+    max-height:70vh;
+    background:#000;
+  }
+  .video-skip{
+    margin-top:18px;
+    background:transparent;
+    border:2px solid #fff8ec;
+    color:#fff8ec;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.9rem;
+    padding:10px 22px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .video-skip:hover{background:rgba(255,255,255,0.1);}
+</style>
+</head>
+<body class="locked">
+<div id="bgLayer"></div>
+
+<!-- ================= ENVELOPE INTRO ================= -->
+<div id="introOverlay">
+  <div class="star" style="top:12%;left:12%;">★</div>
+  <div class="star" style="top:20%;right:14%;font-size:14px;">★</div>
+  <div class="star" style="bottom:18%;left:16%;font-size:16px;">★</div>
+
+  <div class="intro-title">You've got a special invitation!</div>
+
+  <div class="envelope-wrap" id="envelope">
+    <div class="pulse"></div>
+    <div class="env-body">
+      <div class="env-letter">
+        <svg viewBox="0 0 24 24"><path d="M12 2l1.6 5.2H19l-4.3 3.2 1.6 5.2L12 12.4 7.7 15.6l1.6-5.2L5 7.2h5.4z"/></svg>
+      </div>
+      <div class="env-flap"></div>
+      <div class="seal">
+        <svg viewBox="0 0 24 24"><path d="M12 2l1.6 5.2H19l-4.3 3.2 1.6 5.2L12 12.4 7.7 15.6l1.6-5.2L5 7.2h5.4z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="tap-hint">👉 Tap the envelope to open</div>
+</div>
+
+<!-- ================= VIDEO MODAL ================= -->
+<div id="videoOverlay">
+  <div class="video-frame">
+    <video id="introVideo" src="javi.mp4" playsinline controls></video>
+  </div>
+  <button class="video-skip" id="skipVideo">Skip &raquo;</button>
+</div>
+
+<div class="hero">
+  <div class="cloud" style="top:20px;left:-30px;width:150px;height:80px;">
+    <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
+  </div>
+  <div class="cloud" style="top:60px;right:-40px;width:180px;height:90px;">
+    <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
+  </div>
+  <div class="cloud" style="top:130px;left:20%;width:110px;height:60px;opacity:0.7;">
+    <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
+  </div>
+  <div class="star" style="top:40px;left:15%;">★</div>
+  <div class="star" style="top:90px;right:18%;font-size:14px;">★</div>
+  <div class="star" style="top:180px;left:10%;font-size:16px;">★</div>
+
+  <div class="wrap">
+    <span class="patch"><svg viewBox="0 0 24 24"><path d="M12 2l1.6 5.2H19l-4.3 3.2 1.6 5.2L12 12.4 7.7 15.6l1.6-5.2L5 7.2h5.4z"/></svg>You're Invited!</span>
+    <h1>Javi's Christening</h1>
+    <p class="sub">Saturday, November 25</p>
+    <p class="venue">Location: Disneyland (placeholder — to be updated)</p>
+    <p class="tagline">To Infinity... and a Blessed Beyond!</p>
+
+    <div class="countdown" id="countdown">
+      <div class="block"><div class="num" id="cd-days">--</div><div class="lab">DAYS</div></div>
+      <div class="block"><div class="num" id="cd-hours">--</div><div class="lab">HOURS</div></div>
+      <div class="block"><div class="num" id="cd-mins">--</div><div class="lab">MINUTES</div></div>
+      <div class="block"><div class="num" id="cd-secs">--</div><div class="lab">SECONDS</div></div>
+    </div>
+  </div>
+
+  <svg class="scallop" viewBox="0 0 400 20" preserveAspectRatio="none">
+    <path d="M0,0 Q10,20 20,0 Q30,20 40,0 Q50,20 60,0 Q70,20 80,0 Q90,20 100,0 Q110,20 120,0 Q130,20 140,0 Q150,20 160,0 Q170,20 180,0 Q190,20 200,0 Q210,20 220,0 Q230,20 240,0 Q250,20 260,0 Q270,20 280,0 Q290,20 300,0 Q310,20 320,0 Q330,20 340,0 Q350,20 360,0 Q370,20 380,0 Q390,20 400,0 L400,20 L0,20 Z" fill="#fff8ec"/>
+  </svg>
+</div>
+
+<section class="card-section">
+  <div class="wrap">
+    <h2 class="section-title">Event Details</h2>
+    <p class="section-sub">One small step for Javi, one giant celebration for the family.</p>
+    <div class="details-card">
+      <div class="detail-row">
+        <div class="detail-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
+        <div class="detail-text"><div class="label">Date</div><div class="value">November 25, 2026 (Saturday)</div></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div class="detail-text"><div class="label">Time</div><div class="value">To be confirmed with your RSVP</div></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <div class="detail-text"><div class="label">Venue</div><div class="value">Disneyland (placeholder — to be updated)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sky-section light-text">
+  <div class="wrap">
+    <h2 class="section-title">RSVP</h2>
+    <p class="section-sub">Let us know if you'll join Javi's big day! Please reply by November 6.</p>
+    <div class="form-card">
+      <form id="rsvpForm">
+        <label for="r-name">Your Name</label>
+        <input type="text" id="r-name" required placeholder="Jane Doe">
+
+        <label>Will you be joining us?</label>
+        <div class="toggle-row">
+          <div class="toggle-btn" id="btn-yes" data-val="yes">Count me in! 🎉</div>
+          <div class="toggle-btn" id="btn-no" data-val="no">Can't make it</div>
+        </div>
+
+        <label for="r-guests">Number of guests (including you)</label>
+        <input type="number" id="r-guests" min="1" value="1">
+
+        <label for="r-msg">Message (optional)</label>
+        <textarea id="r-msg" placeholder="A note or well-wish for the family..."></textarea>
+
+        <button type="submit" class="submit-btn" id="rsvpSubmit">Send RSVP</button>
+      </form>
+      <div class="confirm-msg" id="rsvpConfirm">Thank you! Your RSVP has been received 🎈</div>
+      <p class="deadline-note">The whole family can see the RSVPs submitted here.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="thanks">Thank you for being part of Javi's big day 🌟</div>
+  <div class="small">With love, Javi's family</div>
+</footer>
+
+<script>
+// ---------- Google Sheets backend ----------
+// Paste the Web app URL from your Apps Script deployment here (ends in /exec).
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8Z82LInnZIhuhrXnr8jP8awqDDZmEDU99rlDpgEjL4f5xg1W5HKHYLgY9U8CD63-X/exec";
+
+// ---------- envelope intro -> video -> invitation ----------
+const introOverlay = document.getElementById('introOverlay');
+const envelope = document.getElementById('envelope');
+const videoOverlay = document.getElementById('videoOverlay');
+const introVideo = document.getElementById('introVideo');
+const skipVideo = document.getElementById('skipVideo');
+
+if(!introOverlay || !envelope || !videoOverlay || !introVideo || !skipVideo){
+  console.error('Envelope intro: missing element(s) — check that all IDs in the HTML match the script.');
+}
+
+function revealInvitation(){
+  videoOverlay.classList.remove('show');
+  introVideo.pause();
+  document.body.classList.remove('locked');
+}
+
+function openEnvelope(){
+  if(envelope.classList.contains('opening')) return;
+  envelope.classList.add('opening');
+  // wait for the envelope-open animation to finish, then fade it out and show the video
+  setTimeout(()=>{
+    introOverlay.classList.add('hide');
+    setTimeout(()=>{
+      videoOverlay.classList.add('show');
+      introVideo.play().catch(()=>{ /* autoplay blocked, user can press play on controls */ });
+    }, 400);
+  }, 700);
+}
+
+// Listen on the envelope itself AND on the whole overlay (delegated),
+// so clicking anywhere near the envelope still works.
+envelope.addEventListener('click', openEnvelope);
+introOverlay.addEventListener('click', (e)=>{
+  if(e.target.closest('.envelope-wrap')) openEnvelope();
+});
+
+introVideo.addEventListener('ended', revealInvitation);
+skipVideo.addEventListener('click', revealInvitation);
+
+// ---------- countdown ----------
+const target = new Date("2026-11-25T00:00:00");
+function tick(){
+  const now = new Date();
+  let diff = target - now;
+  if(diff < 0) diff = 0;
+  const d = Math.floor(diff/(1000*60*60*24));
+  const h = Math.floor((diff/(1000*60*60))%24);
+  const m = Math.floor((diff/(1000*60))%60);
+  const s = Math.floor((diff/1000)%60);
+  document.getElementById('cd-days').textContent = d;
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+}
+tick();
+setInterval(tick, 1000);
+
+// ---------- RSVP toggle ----------
+let attending = null;
+const btnYes = document.getElementById('btn-yes');
+const btnNo = document.getElementById('btn-no');
+btnYes.addEventListener('click', ()=>{
+  attending = 'yes';
+  btnYes.classList.add('active-yes');
+  btnNo.classList.remove('active-no');
+});
+btnNo.addEventListener('click', ()=>{
+  attending = 'no';
+  btnNo.classList.add('active-no');
+  btnYes.classList.remove('active-yes');
+});
+
+// ---------- RSVP submit ----------
+document.getElementById('rsvpForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('r-name').value.trim();
+  if(!name){ return; }
+  if(!attending){ alert('Please choose whether you can attend.'); return; }
+  const guests = document.getElementById('r-guests').value || 1;
+  const msg = document.getElementById('r-msg').value.trim();
+  const btn = document.getElementById('rsvpSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try{
+    // NOTE: mode "no-cors" is used because Google Apps Script's redirect
+    // response doesn't carry proper CORS headers. This means we can't read
+    // the response back, but the request still goes through and gets saved
+    // to the Sheet correctly.
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify({ type: 'rsvp', name, attending, guests, message: msg })
+    });
+    document.getElementById('rsvpConfirm').style.display = 'block';
+    document.getElementById('rsvpForm').reset();
+    attending = null;
+    btnYes.classList.remove('active-yes');
+    btnNo.classList.remove('active-no');
+  }catch(err){
+    alert('Something went wrong sending your RSVP. Please try again.');
+    console.error(err);
+  }
+  btn.disabled = false;
+  btn.textContent = 'Send RSVP';
+});
+
+</script>
+
+</body>
+</html>
