@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Javi's Christening</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
   :root{
     --sky-top:#bfe3f7;
@@ -26,16 +26,16 @@
     color:var(--ink);
     overflow-x:hidden;
     position:relative;
+    background-color:var(--sky-top);
   }
   #bgLayer{
     position:absolute;
-    top:0;left:0;right:0;bottom:0;
+    inset:0;
     z-index:-1;
-    background-color:var(--sky-top);
     background-image:url('toy_story_bg.jpg');
-    background-size:100% 100%;
+    background-size:100% auto;
     background-position:top center;
-    background-repeat:no-repeat;
+    background-repeat:repeat-y;
     filter:saturate(1.5) contrast(1.2) brightness(0.97);
   }
   h1,h2,h3{
@@ -53,6 +53,7 @@
     text-align:center;
     overflow:hidden;
   }
+  .hero > *{position:relative;}
   .cloud{position:absolute;opacity:0.9;}
   .cloud svg{display:block;width:100%;height:100%;}
   .star{position:absolute;color:var(--mustard);font-size:20px;opacity:0.85;}
@@ -178,6 +179,77 @@
     background:repeating-linear-gradient(90deg,var(--mustard) 0 14px, var(--wood-red) 14px 28px);
     border-radius:3px;
   }
+  .details-grid{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .detail-card{
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:22px;
+    padding:28px 24px;
+    box-shadow:0 6px 0 var(--ink);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:12px;
+  }
+  .detail-card::before{
+    content:"";
+    position:absolute;
+    top:-3px;left:22px;right:22px;
+    height:6px;
+    background:repeating-linear-gradient(90deg,var(--mustard) 0 14px, var(--wood-red) 14px 28px);
+    border-radius:3px;
+  }
+  .detail-card .detail-icon{
+    width:56px;height:56px;
+  }
+  .detail-card .detail-icon svg{width:28px;height:28px;}
+  .detail-card .label{font-size:1.05rem;}
+  .detail-card .value{font-size:0.95rem;margin-top:2px;}
+  .map-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:6px;
+    padding:10px 20px;
+    background:var(--buzz-green);
+    color:#fff;
+    text-decoration:none;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.85rem;
+    border-radius:999px;
+    box-shadow:0 3px 0 #1f6b47;
+  }
+  .map-link:active{transform:translateY(3px);box-shadow:none;}
+  .map-link svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;}
+
+  .venue-card{
+    position:relative;
+    background-image:linear-gradient(rgba(20,14,10,0.55),rgba(20,14,10,0.55)), url('disney.png');
+    background-size:cover;
+    background-position:center;
+    color:#fff8ec;
+  }
+  .venue-card .detail-icon{background:var(--mustard);}
+  .venue-card .label{color:#fff8ec;}
+  .venue-card .value{color:#fff8ec;opacity:0.92;}
+
+  .church-card{
+    position:relative;
+    background-image:linear-gradient(rgba(20,14,10,0.55),rgba(20,14,10,0.55)), url('church.jpg');
+    background-size:cover;
+    background-position:center;
+    color:#fff8ec;
+  }
+  .church-card .detail-icon{background:var(--mustard);}
+  .church-card .label{color:#fff8ec;}
+  .church-card .value{color:#fff8ec;opacity:0.92;}
   .detail-row{
     display:flex;
     align-items:center;
@@ -321,6 +393,113 @@
   .polaroid .frame svg{width:34%;stroke:#fff8ec;fill:none;stroke-width:1.6;opacity:0.85;}
   .polaroid .cap{font-size:0.72rem;font-weight:800;opacity:0.7;}
 
+  /* faq section */
+  .faq-list{display:flex;flex-direction:column;gap:14px;}
+  .faq-item{
+    background:var(--card);
+    border:3px solid var(--ink);
+    border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);
+    overflow:hidden;
+  }
+  .faq-item summary{
+    list-style:none;
+    cursor:pointer;
+    padding:16px 20px;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.98rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"+";
+    font-size:1.3rem;
+    font-weight:700;
+    color:var(--wood-red);
+    flex:0 0 auto;
+    transition:transform 0.25s ease;
+  }
+  .faq-item[open] summary::after{transform:rotate(45deg);}
+  .faq-item .faq-answer{
+    padding:0 20px 18px;
+    font-size:0.9rem;
+    line-height:1.5;
+    opacity:0.85;
+  }
+
+  /* welcome intro section */
+  .welcome-section{
+    background:rgba(255,248,236,0.6);
+    text-align:center;
+    padding:50px 0 10px;
+  }
+  .photo-frame{
+    width:260px;
+    max-width:80%;
+    margin:0 auto 20px;
+    border:4px solid var(--wood-red);
+    border-radius:16px;
+    box-shadow:0 6px 0 rgba(59,42,30,0.2);
+    margin:0 auto 20px;
+    overflow:hidden;
+    background:#fff8ec;
+  }
+  .welcome-photo{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 32%;
+    transform:scale(0.75);
+    display:block;
+  }
+  .listen-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:none;
+    border:none;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.8rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--wood-red);
+    cursor:pointer;
+    padding:6px 0;
+    border-bottom:2px solid var(--wood-red);
+  }
+  .welcome-heading{
+    font-family:'Nunito',sans-serif;
+    font-weight:800;
+    font-size:1.4rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:26px 0 18px;
+  }
+  .welcome-heading .script-letter{
+    font-family:'Dancing Script',cursive;
+    font-size:2.6rem;
+    font-weight:700;
+    color:var(--wood-red);
+    text-transform:none;
+    vertical-align:-6px;
+    margin-right:2px;
+  }
+  .welcome-text{
+    max-width:520px;
+    margin:0 auto;
+    font-size:1rem;
+    line-height:1.7;
+    color:#3a2e2a;
+  }
+  .welcome-text p{margin:0 0 14px;}
+  .welcome-text .indent{display:block;}
+
   footer{
     text-align:center;
     padding:40px 24px 50px;
@@ -341,6 +520,7 @@
     align-items:center;
     justify-content:center;
     flex-direction:column;
+    padding-bottom:calc(40px + 9vw);
     transition:opacity 0.6s ease;
   }
   #introOverlay.hide{
@@ -357,6 +537,51 @@
     margin-bottom:26px;
     text-align:center;
     padding:0 20px;
+  }
+
+  /* envelope scene wrapper */
+  .envelope-scene{
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+
+  /* Toy Story character frame - centered, capped at its native resolution so it never blurs from stretching */
+  .toy-frame{
+    position:fixed;
+    left:50%;
+    bottom:0;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:1196px;
+    z-index:6;
+    filter:drop-shadow(0 8px 10px rgba(0,0,0,0.2));
+    pointer-events:none;
+    animation:toyFrameSway 3s ease-in-out infinite;
+    transform-origin:bottom center;
+  }
+  @keyframes toyFrameSway{
+    0%,100%{ transform:translateX(-50%) translateY(0) rotate(0deg); }
+    25%{ transform:translateX(-50%) translateY(-6px) rotate(-0.6deg); }
+    75%{ transform:translateX(-50%) translateY(-6px) rotate(0.6deg); }
+  }
+
+  /* small sparkle/star accents flying around the envelope */
+  .env-sparkle{
+    position:absolute;
+    color:var(--mustard);
+    font-size:16px;
+    z-index:4;
+    animation:sparkleFloat 3s ease-in-out infinite;
+    pointer-events:none;
+  }
+  .env-sparkle.s1{ top:-18px; left:-22px; animation-delay:0s; }
+  .env-sparkle.s2{ top:10%; right:-30px; font-size:12px; animation-delay:0.8s; }
+  .env-sparkle.s3{ bottom:-10px; left:-30px; font-size:14px; animation-delay:1.6s; }
+  @keyframes sparkleFloat{
+    0%,100%{ transform:translateY(0) rotate(0deg); opacity:0.6; }
+    50%{ transform:translateY(-14px) rotate(20deg); opacity:1; }
   }
 
   /* envelope */
@@ -416,6 +641,14 @@
     z-index:1;
   }
   .env-letter svg{width:34%;stroke:var(--wood-red);fill:none;stroke-width:1.6;}
+  .env-letter-name{
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    font-size:clamp(1.4rem, 8vw, 2rem);
+    letter-spacing:1px;
+    color:var(--wood-red);
+    text-shadow:1px 1px 0 rgba(0,0,0,0.08);
+  }
   .env-flap{
     position:absolute;
     top:0;left:0;right:0;
@@ -512,26 +745,46 @@
 
 <!-- ================= ENVELOPE INTRO ================= -->
 <div id="introOverlay">
+  <div class="cloud" style="top:8%;left:2%;width:130px;height:70px;opacity:0.85;">
+    <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
+  </div>
+  <div class="cloud" style="top:14%;right:3%;width:160px;height:85px;opacity:0.8;">
+    <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
+  </div>
+  <div class="cloud" style="bottom:26%;left:0%;width:100px;height:55px;opacity:0.6;">
+    <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
+  </div>
+  <div class="cloud" style="bottom:30%;right:1%;width:120px;height:65px;opacity:0.6;">
+    <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
+  </div>
   <div class="star" style="top:12%;left:12%;">★</div>
   <div class="star" style="top:20%;right:14%;font-size:14px;">★</div>
   <div class="star" style="bottom:18%;left:16%;font-size:16px;">★</div>
+  <div class="star" style="top:35%;left:4%;font-size:14px;">★</div>
+  <div class="star" style="top:45%;right:5%;font-size:18px;">★</div>
+  <div class="star" style="bottom:32%;right:9%;font-size:13px;">★</div>
+  <div class="star" style="top:55%;left:9%;font-size:12px;">★</div>
 
   <div class="intro-title">You've got a special invitation!</div>
 
-  <div class="envelope-wrap" id="envelope">
-    <div class="pulse"></div>
-    <div class="env-body">
-      <div class="env-letter">
-        <svg viewBox="0 0 24 24"><path d="M12 2l1.6 5.2H19l-4.3 3.2 1.6 5.2L12 12.4 7.7 15.6l1.6-5.2L5 7.2h5.4z"/></svg>
-      </div>
-      <div class="env-flap"></div>
-      <div class="seal">
-        <svg viewBox="0 0 24 24"><path d="M12 2l1.6 5.2H19l-4.3 3.2 1.6 5.2L12 12.4 7.7 15.6l1.6-5.2L5 7.2h5.4z"/></svg>
+  <div class="envelope-scene">
+    <span class="env-sparkle s1">✨</span>
+    <span class="env-sparkle s2">⭐</span>
+    <span class="env-sparkle s3">✨</span>
+
+    <div class="envelope-wrap" id="envelope">
+      <div class="pulse"></div>
+      <div class="env-body">
+        <div class="env-letter"><span class="env-letter-name">JAVI</span></div>
+        <div class="env-flap"></div>
+        <div class="seal"></div>
       </div>
     </div>
   </div>
 
   <div class="tap-hint">👉 Tap the envelope to open</div>
+
+  <img src="toy_story_frame.png" alt="Toy Story characters" class="toy-frame">
 </div>
 
 <!-- ================= VIDEO MODAL ================= -->
@@ -560,7 +813,7 @@
     <span class="patch"><svg viewBox="0 0 24 24"><path d="M12 2l1.6 5.2H19l-4.3 3.2 1.6 5.2L12 12.4 7.7 15.6l1.6-5.2L5 7.2h5.4z"/></svg>You're Invited!</span>
     <h1>Javi's Christening</h1>
     <p class="sub">Saturday, November 25</p>
-    <p class="venue">Location: Disneyland (placeholder — to be updated)</p>
+    <p class="venue"></p>
     <p class="tagline">To Infinity... and a Blessed Beyond!</p>
 
     <div class="countdown" id="countdown">
@@ -570,28 +823,43 @@
       <div class="block"><div class="num" id="cd-secs">--</div><div class="lab">SECONDS</div></div>
     </div>
   </div>
-
-  <svg class="scallop" viewBox="0 0 400 20" preserveAspectRatio="none">
-    <path d="M0,0 Q10,20 20,0 Q30,20 40,0 Q50,20 60,0 Q70,20 80,0 Q90,20 100,0 Q110,20 120,0 Q130,20 140,0 Q150,20 160,0 Q170,20 180,0 Q190,20 200,0 Q210,20 220,0 Q230,20 240,0 Q250,20 260,0 Q270,20 280,0 Q290,20 300,0 Q310,20 320,0 Q330,20 340,0 Q350,20 360,0 Q370,20 380,0 Q390,20 400,0 L400,20 L0,20 Z" fill="#fff8ec"/>
-  </svg>
 </div>
+
+<section class="welcome-section">
+  <div class="wrap">
+    <div class="photo-frame">
+      <img src="javi1.png" alt="Javi" class="welcome-photo">
+    </div>
+    <h2 class="welcome-heading"><span class="script-letter">W</span>elcome to Javi's Christening!</h2>
+    <div class="welcome-text">
+      <p>Howdy, partner! 🤠✨</p>
+      <p>Our little space ranger is getting christened!</p>
+      <p>Grab your hats and boots — it's time for some rootin'-tootin' blessings!</p>
+      <p>Ride on over and join us for a joyful celebration,<span class="indent">as we welcome Javi into a life full of faith, love, and adventure!</span></p>
+    </div>
+  </div>
+</section>
 
 <section class="card-section">
   <div class="wrap">
     <h2 class="section-title">Event Details</h2>
     <p class="section-sub">One small step for Javi, one giant celebration for the family.</p>
-    <div class="details-card">
-      <div class="detail-row">
-        <div class="detail-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
-        <div class="detail-text"><div class="label">Date</div><div class="value">November 25, 2026 (Saturday)</div></div>
+    <div class="details-grid">
+      <div class="detail-card church-card">
+        <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <div class="detail-text"><div class="label">Church</div><div class="value">St. Gregory the Great Parish Church, Indang, Cavite</div></div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Saint+Gregory+the+Great+Parish+Church+Indang+Cavite" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          View on Map
+        </a>
       </div>
-      <div class="detail-row">
-        <div class="detail-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
-        <div class="detail-text"><div class="label">Time</div><div class="value">To be confirmed with your RSVP</div></div>
-      </div>
-      <div class="detail-row">
+      <div class="detail-card venue-card">
         <div class="detail-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
         <div class="detail-text"><div class="label">Venue</div><div class="value">Disneyland (placeholder — to be updated)</div></div>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Disneyland" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          View on Map
+        </a>
       </div>
     </div>
   </div>
@@ -622,6 +890,35 @@
       </form>
       <div class="confirm-msg" id="rsvpConfirm">Thank you! Your RSVP has been received 🎈</div>
       <p class="deadline-note">The whole family can see the RSVPs submitted here.</p>
+    </div>
+  </div>
+</section>
+
+<section class="card-section">
+  <div class="wrap">
+    <h2 class="section-title">FAQs</h2>
+    <p class="section-sub">A few things families usually ask.</p>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>What should I wear?</summary>
+        <div class="faq-answer">Smart casual is perfect — think comfy but put-together. Feel free to add a little Toy Story flair if you'd like!</div>
+      </details>
+      <details class="faq-item">
+        <summary>Can I bring my kids?</summary>
+        <div class="faq-answer">Of course! The more the merrier — just let us know the headcount in your RSVP so we can prepare enough seats and food.</div>
+      </details>
+      <details class="faq-item">
+        <summary>What time should I arrive?</summary>
+        <div class="faq-answer">The exact time will be confirmed once your RSVP is in — please arrive a little early to help things run smoothly.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need to bring a gift?</summary>
+        <div class="faq-answer">Your presence is more than enough! If you'd still like to bring something, a small token for Javi is always appreciated.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Is parking available at the venue?</summary>
+        <div class="faq-answer">Yes, parking details will be shared closer to the date along with the final venue confirmation.</div>
+      </details>
     </div>
   </div>
 </section>
