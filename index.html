@@ -462,6 +462,28 @@
   .faq-item .faq-answer p{margin:0 0 10px;}
   .faq-item .faq-answer p:last-child{margin-bottom:0;}
   .faq-item .faq-answer strong{color:var(--wood-red);}
+  .color-swatches{
+    display:flex;
+    gap:12px;
+    margin-top:10px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .swatch{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    box-shadow:0 2px 0 rgba(59,42,30,0.25);
+    flex:0 0 auto;
+  }
+  .swatch.godparent-blue{background:#bfe3f7;}
+  .swatch.guest-yellow{background:#f2eba8;}
+  .swatch.guest-green{background:#b3e0bd;}
+  .swatch.guest-purple{background:#c6b3da;}
+  .swatch.guest-pink{background:#f2c2d2;}
+  .swatch.guest-beige{background:#dccdb8;}
 
   /* welcome intro section */
   .welcome-section{
@@ -994,8 +1016,18 @@
           <p>Come dressed and ready to celebrate Javi's big adventure!</p>
           <p><strong>🤠For Javi's Godparents — Woody's Crew</strong><br>
           Please wear baby blue. Let's keep our special godparents looking as blue-tiful as the sky!</p>
+          <div class="color-swatches">
+            <span class="swatch godparent-blue"></span>
+          </div>
           <p><strong>🧸For Our Guests — Our Toy Story Friends</strong><br>
           Feel free to wear any pastel colored top — Yellow, Green, Purple, Pastel Pink, or Pastel Beige. Come in your favorite Toy Story-inspired colors and let's make Javi's birthday party a colorful adventure!</p>
+          <div class="color-swatches">
+            <span class="swatch guest-yellow"></span>
+            <span class="swatch guest-green"></span>
+            <span class="swatch guest-purple"></span>
+            <span class="swatch guest-pink"></span>
+            <span class="swatch guest-beige"></span>
+          </div>
         </div>
       </details>
       <details class="faq-item">
