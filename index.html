@@ -418,9 +418,121 @@
     border-radius:6px;
     display:flex;align-items:center;justify-content:center;
     margin-bottom:8px;
+    overflow:hidden;
+  }
+  .polaroid .frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
   }
   .polaroid .frame svg{width:34%;stroke:#fff8ec;fill:none;stroke-width:1.6;opacity:0.85;}
   .polaroid .cap{font-size:0.72rem;font-weight:800;opacity:0.7;}
+
+  /* gallery trigger button */
+  .gallery-trigger{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin:6px auto 0;
+    padding:14px 28px;
+    border:none;
+    border-radius:999px;
+    background:var(--wood-red);
+    color:#fff8ec;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    cursor:pointer;
+    box-shadow:0 4px 0 #8f2f28;
+  }
+  .gallery-trigger:active{transform:translateY(3px);box-shadow:none;}
+
+  /* gallery lightbox */
+  #galleryOverlay{
+    position:fixed;
+    inset:0;
+    z-index:9997;
+    background:rgba(20,20,20,0.92);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    padding:20px;
+  }
+  #galleryOverlay.show{display:flex;}
+  .gallery-close{
+    position:absolute;
+    top:18px;
+    right:18px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:2px solid #fff8ec;
+    background:transparent;
+    color:#fff8ec;
+    font-size:1.4rem;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .gallery-viewer{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    aspect-ratio:1/1;
+    background:#111;
+    border:4px solid var(--mustard);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 8px 0 rgba(0,0,0,0.4);
+  }
+  .gallery-slide-img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:translateX(0) scale(1) rotate(0deg);
+    opacity:1;
+    transition:transform 0.4s cubic-bezier(.34,1.4,.4,1), opacity 0.35s ease;
+  }
+  .gallery-slide-img.slide-exit-left{transform:translateX(-70%) scale(0.8) rotate(-10deg);opacity:0;}
+  .gallery-slide-img.slide-exit-right{transform:translateX(70%) scale(0.8) rotate(10deg);opacity:0;}
+  .gallery-slide-img.slide-enter-right{transform:translateX(70%) scale(0.8) rotate(10deg);opacity:0;}
+  .gallery-slide-img.slide-enter-left{transform:translateX(-70%) scale(0.8) rotate(-10deg);opacity:0;}
+  .gallery-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    background:var(--mustard);
+    color:var(--ink);
+    font-size:1.1rem;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 3px 0 #a97621;
+    z-index:2;
+  }
+  .gallery-nav:active{transform:translateY(-47%);box-shadow:none;}
+  .gallery-nav.prev{left:10px;}
+  .gallery-nav.next{right:10px;}
+  .gallery-counter{
+    margin-top:16px;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.9rem;
+    color:#fff8ec;
+    letter-spacing:0.5px;
+  }
 
   /* faq section */
   .faq-list{display:flex;flex-direction:column;gap:14px;}
@@ -892,6 +1004,17 @@
   <button class="video-skip" id="skipVideo">Skip &raquo;</button>
 </div>
 
+<!-- ================= PHOTO GALLERY LIGHTBOX ================= -->
+<div id="galleryOverlay">
+  <button class="gallery-close" id="galleryClose">&times;</button>
+  <div class="gallery-viewer">
+    <img id="galleryImg" src="gallery1.jpg" alt="Javi photo" class="gallery-slide-img">
+    <button class="gallery-nav prev" id="galleryPrev" aria-label="Previous photo">&#10094;</button>
+    <button class="gallery-nav next" id="galleryNext" aria-label="Next photo">&#10095;</button>
+  </div>
+  <div class="gallery-counter" id="galleryCounter">1 / 6</div>
+</div>
+
 <div class="hero">
   <div class="cloud" style="top:20px;left:-30px;width:150px;height:80px;">
     <svg viewBox="0 0 200 100"><path d="M30,80 a30,30 0 0,1 0,-60 a35,35 0 0,1 65,-10 a30,30 0 0,1 45,30 a25,25 0 0,1 -10,40 z" fill="#ffffff"/></svg>
@@ -963,6 +1086,17 @@
         </a>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="welcome-section">
+  <div class="wrap">
+    <h2 class="section-title">Photo Gallery</h2>
+    <p class="section-sub">A few snapshots from our little cowboy's adventures.</p>
+    <button type="button" class="gallery-trigger" id="galleryTrigger">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="#fff8ec" fill="none" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6l1.5-2.5h5L16 6"/><circle cx="12" cy="13" r="3.5"/></svg>
+      Click to View Photos
+    </button>
   </div>
 </section>
 
@@ -1121,6 +1255,79 @@ introOverlay.addEventListener('click', (e)=>{
 
 introVideo.addEventListener('ended', revealInvitation);
 skipVideo.addEventListener('click', revealInvitation);
+
+// ---------- photo gallery lightbox ----------
+const galleryPhotos = ['gallery1.jpg','gallery2.jpg','gallery3.jpg','gallery4.jpg','gallery5.jpg','gallery6.jpg'];
+let galleryIndex = 0;
+let galleryAnimating = false;
+
+const galleryOverlay = document.getElementById('galleryOverlay');
+const galleryTrigger = document.getElementById('galleryTrigger');
+const galleryClose = document.getElementById('galleryClose');
+const galleryImg = document.getElementById('galleryImg');
+const galleryPrev = document.getElementById('galleryPrev');
+const galleryNext = document.getElementById('galleryNext');
+const galleryCounter = document.getElementById('galleryCounter');
+
+function updateGalleryCounter(){
+  galleryCounter.textContent = (galleryIndex + 1) + ' / ' + galleryPhotos.length;
+}
+
+function openGallery(){
+  galleryIndex = 0;
+  galleryImg.src = galleryPhotos[galleryIndex];
+  updateGalleryCounter();
+  galleryOverlay.classList.add('show');
+}
+
+function closeGallery(){
+  galleryOverlay.classList.remove('show');
+}
+
+function goToPhoto(direction){
+  if(galleryAnimating) return;
+  galleryAnimating = true;
+  const exitClass = direction === 'next' ? 'slide-exit-left' : 'slide-exit-right';
+  const enterClass = direction === 'next' ? 'slide-enter-right' : 'slide-enter-left';
+
+  galleryImg.classList.add(exitClass);
+
+  setTimeout(()=>{
+    galleryIndex = direction === 'next'
+      ? (galleryIndex + 1) % galleryPhotos.length
+      : (galleryIndex - 1 + galleryPhotos.length) % galleryPhotos.length;
+
+    galleryImg.src = galleryPhotos[galleryIndex];
+    galleryImg.classList.remove(exitClass);
+    galleryImg.classList.add(enterClass);
+    void galleryImg.offsetWidth; // force reflow so the enter animation plays
+    galleryImg.classList.remove(enterClass);
+    updateGalleryCounter();
+
+    setTimeout(()=>{ galleryAnimating = false; }, 400);
+  }, 380);
+}
+
+if(galleryTrigger){
+  galleryTrigger.addEventListener('click', openGallery);
+  galleryClose.addEventListener('click', closeGallery);
+  galleryOverlay.addEventListener('click', (e)=>{
+    if(e.target === galleryOverlay) closeGallery();
+  });
+  galleryNext.addEventListener('click', ()=> goToPhoto('next'));
+  galleryPrev.addEventListener('click', ()=> goToPhoto('prev'));
+
+  // swipe support for mobile
+  let touchStartX = 0;
+  const viewerEl = document.querySelector('.gallery-viewer');
+  viewerEl.addEventListener('touchstart', (e)=>{ touchStartX = e.changedTouches[0].clientX; }, {passive:true});
+  viewerEl.addEventListener('touchend', (e)=>{
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if(Math.abs(diff) > 40){
+      goToPhoto(diff < 0 ? 'next' : 'prev');
+    }
+  }, {passive:true});
+}
 
 // ---------- countdown ----------
 const target = new Date("2026-11-25T00:00:00");
