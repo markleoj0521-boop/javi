@@ -132,8 +132,11 @@
   }
   @media(max-width:480px){
     .invite-frame{
-      width:100%;
+      width:100vw;
+      max-width:none;
       margin-top:28px;
+      margin-left:calc(50% - 50vw);
+      margin-right:calc(50% - 50vw);
     }
   }
 
@@ -142,26 +145,26 @@
     position:relative;z-index:2;
     display:flex;
     justify-content:center;
-    gap:12px;
+    gap:8px;
     margin-top:22px;
     flex-wrap:wrap;
   }
   .block{
     background:#fff8ec;
-    border:3px solid var(--ink);
-    border-radius:14px;
-    width:76px;
-    padding:12px 0;
-    box-shadow:0 4px 0 var(--ink);
+    border:2px solid var(--ink);
+    border-radius:10px;
+    width:56px;
+    padding:7px 0;
+    box-shadow:0 3px 0 var(--ink);
   }
   .block .num{
     font-family:'Fredoka',sans-serif;
-    font-size:1.8rem;
+    font-size:1.25rem;
     font-weight:700;
     color:var(--wood-red);
   }
   .block .lab{
-    font-size:0.62rem;
+    font-size:0.5rem;
     font-weight:800;
     letter-spacing:0.3px;
     color:var(--ink);
@@ -604,6 +607,14 @@
   /* info sections (collage, what to wear, gifts) */
   .collage-frame{max-width:592px;margin:0 auto 30px;}
   .collage-frame img{display:block;width:100%;height:auto;}
+  @media(max-width:480px){
+    .collage-frame{
+      width:100vw;
+      max-width:none;
+      margin-left:calc(50% - 50vw);
+      margin-right:calc(50% - 50vw);
+    }
+  }
   .info-title{text-align:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;margin:30px 0 16px;}
   .info-heading{text-align:center;font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.98rem;color:var(--wood-red);margin:0 0 6px;}
   .info-text{font-size:0.95rem;line-height:1.6;margin:0 0 12px;text-align:justify;}
@@ -616,16 +627,26 @@
     background:rgba(255,248,236,0.72);
     text-align:center;
     padding:50px 0 10px;
+    overflow:hidden; /* para hindi mag-overflow sa gilid yung pinalaking picture */
   }
+  /* PINALAKI: mas malawak kaysa sa .wrap para mawala yung sobrang transparent
+     space sa paligid ng picture at lumaki talaga yung itsura niya */
   .photo-frame{
-    width:100%;
-    max-width:592px;
-    margin:0 auto 20px;
+    width:170%;
+    max-width:none;
+    margin:-40px 0 28px -35%;
   }
   .welcome-photo{
     width:100%;
     height:auto;
     display:block;
+  }
+  @media(min-width:641px){
+    /* sa desktop/tablet, mas konti lang ang pagpapalaki para di sobrang laki */
+    .photo-frame{
+      width:130%;
+      margin:-20px 0 24px -15%;
+    }
   }
   .listen-link{
     display:inline-flex;
@@ -919,11 +940,11 @@
   /* ================= MUSIC TOGGLE BUTTON ================= */
   #musicToggle{
     position:fixed;
-    right:18px;
-    bottom:18px;
+    right:12px;
+    bottom:6px;
     z-index:9000;
-    width:54px;
-    height:54px;
+    width:46px;
+    height:46px;
     border-radius:50%;
     background:var(--wood-red);
     border:3px solid var(--ink);
@@ -1002,14 +1023,6 @@
   <div class="tap-hint">👉 Tap the envelope to open</div>
 
   <img src="toy_story_frame.png" alt="Toy Story characters" class="toy-frame">
-</div>
-
-<!-- ================= VIDEO MODAL ================= -->
-<div id="videoOverlay">
-  <div class="video-frame">
-    <video id="introVideo" src="javi.mp4" playsinline controls></video>
-  </div>
-  <button class="video-skip" id="skipVideo">Skip &raquo;</button>
 </div>
 
 <!-- ================= PHOTO GALLERY LIGHTBOX ================= -->
@@ -1133,9 +1146,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8Z82LInnZIhuh
 // ---------- envelope intro -> video -> invitation ----------
 const introOverlay = document.getElementById('introOverlay');
 const envelope = document.getElementById('envelope');
-const videoOverlay = document.getElementById('videoOverlay');
-const introVideo = document.getElementById('introVideo');
-const skipVideo = document.getElementById('skipVideo');
 
 // ---------- background music ----------
 const bgMusic = document.getElementById('bgMusic');
@@ -1167,13 +1177,11 @@ musicToggle.addEventListener('click', ()=>{
   }
 });
 
-if(!introOverlay || !envelope || !videoOverlay || !introVideo || !skipVideo){
+if(!introOverlay || !envelope){
   console.error('Envelope intro: missing element(s) — check that all IDs in the HTML match the script.');
 }
 
 function revealInvitation(){
-  videoOverlay.classList.remove('show');
-  introVideo.pause();
   document.body.classList.remove('locked');
   startMusic();
 }
@@ -1181,13 +1189,10 @@ function revealInvitation(){
 function openEnvelope(){
   if(envelope.classList.contains('opening')) return;
   envelope.classList.add('opening');
-  // wait for the envelope-open animation to finish, then fade it out and show the video
+  // wait for the envelope-open animation to finish, then fade it out and show the invitation
   setTimeout(()=>{
     introOverlay.classList.add('hide');
-    setTimeout(()=>{
-      videoOverlay.classList.add('show');
-      introVideo.play().catch(()=>{ /* autoplay blocked, user can press play on controls */ });
-    }, 400);
+    revealInvitation();
   }, 700);
 }
 
@@ -1197,9 +1202,6 @@ envelope.addEventListener('click', openEnvelope);
 introOverlay.addEventListener('click', (e)=>{
   if(e.target.closest('.envelope-wrap')) openEnvelope();
 });
-
-introVideo.addEventListener('ended', revealInvitation);
-skipVideo.addEventListener('click', revealInvitation);
 
 // ---------- photo gallery lightbox ----------
 const galleryPhotos = ['gallery1.jpg','gallery2.jpg','gallery3.jpg','gallery4.jpg','gallery5.jpg','gallery6.jpg'];
