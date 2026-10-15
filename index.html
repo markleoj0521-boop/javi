@@ -1071,7 +1071,7 @@
 <!-- ================= SCROLLABLE PHOTO STRIP ================= -->
 <div id="scrollOverlay">
   <div class="scroll-viewer">
-    <img src="javi_scroll.JPG" alt="Javi photo strip">
+    <img src="javi_scroll.jpg" alt="Javi photo strip">
   </div>
   <button class="scroll-continue" id="scrollContinue">Continue &raquo;</button>
 </div>
@@ -1238,12 +1238,13 @@ const scrollContinue = document.getElementById('scrollContinue');
 function revealInvitation(){
   scrollOverlay.classList.remove('show');
   document.body.classList.remove('locked');
-  startMusic();
 }
 
 function openEnvelope(){
   if(envelope.classList.contains('opening')) return;
   envelope.classList.add('opening');
+  // simulan agad ang music sa mismong click ng envelope (allowed ng browser kasi galing sa tap ng guest)
+  startMusic();
   // wait for the envelope-open animation to finish, then fade it out and show the scrollable photo strip
   setTimeout(()=>{
     introOverlay.classList.add('hide');
