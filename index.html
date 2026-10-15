@@ -950,6 +950,39 @@
     padding:20px;
   }
   #scrollOverlay.show{display:flex;}
+  .scroll-wrap{
+    position:relative;
+    width:100%;
+    max-width:420px;
+  }
+  .scroll-hint{
+    position:absolute;
+    left:50%;
+    bottom:14px;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:var(--mustard);
+    color:var(--ink);
+    border:2px solid var(--ink);
+    box-shadow:0 3px 0 #a97621;
+    padding:8px 16px;
+    border-radius:999px;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.85rem;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:2;
+    transition:opacity 0.4s ease;
+    animation:scrollBounce 1.4s ease-in-out infinite;
+  }
+  .scroll-hint.hidden{opacity:0;animation:none;}
+  @keyframes scrollBounce{
+    0%,100%{transform:translateX(-50%) translateY(0);}
+    50%{transform:translateX(-50%) translateY(6px);}
+  }
   .scroll-viewer{
     width:100%;
     max-width:420px;
@@ -1070,8 +1103,11 @@
 
 <!-- ================= SCROLLABLE PHOTO STRIP ================= -->
 <div id="scrollOverlay">
-  <div class="scroll-viewer">
-    <img src="javi_scroll.JPG" alt="Javi photo strip">
+  <div class="scroll-wrap">
+    <div class="scroll-viewer" id="scrollViewer">
+      <img src="javi_scroll.JPG" alt="Javi photo strip">
+    </div>
+    <div class="scroll-hint" id="scrollHint">Scroll down ▼</div>
   </div>
   <button class="scroll-continue" id="scrollContinue">Continue &raquo;</button>
 </div>
@@ -1255,6 +1291,13 @@ function openEnvelope(){
 }
 
 scrollContinue.addEventListener('click', revealInvitation);
+
+// itago ang "Scroll down" hint kapag nag-scroll na ang guest
+const scrollViewer = document.getElementById('scrollViewer');
+const scrollHint = document.getElementById('scrollHint');
+scrollViewer.addEventListener('scroll', ()=>{
+  if(scrollViewer.scrollTop > 20) scrollHint.classList.add('hidden');
+}, {passive:true});
 
 // Listen on the envelope itself AND on the whole overlay (delegated),
 // so clicking anywhere near the envelope still works.
