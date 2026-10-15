@@ -937,6 +937,49 @@
   }
   .video-skip:hover{background:rgba(255,255,255,0.1);}
 
+  /* scrollable photo strip - lalabas pagkatapos buksan ang envelope */
+  #scrollOverlay{
+    position:fixed;
+    inset:0;
+    z-index:9998;
+    background:rgba(20,20,20,0.92);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    padding:20px;
+  }
+  #scrollOverlay.show{display:flex;}
+  .scroll-viewer{
+    width:100%;
+    max-width:420px;
+    max-height:calc(100vh - 110px);
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    background:#000;
+    border:4px solid var(--mustard);
+    border-radius:18px;
+    box-shadow:0 8px 0 rgba(0,0,0,0.4);
+  }
+  .scroll-viewer img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .scroll-continue{
+    margin-top:18px;
+    background:transparent;
+    border:2px solid #fff8ec;
+    color:#fff8ec;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.9rem;
+    padding:10px 22px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .scroll-continue:hover{background:rgba(255,255,255,0.1);}
+
   /* ================= MUSIC TOGGLE BUTTON ================= */
   #musicToggle{
     position:fixed;
@@ -1023,6 +1066,14 @@
   <div class="tap-hint">👉 Tap the envelope to open</div>
 
   <img src="toy_story_frame.png" alt="Toy Story characters" class="toy-frame">
+</div>
+
+<!-- ================= SCROLLABLE PHOTO STRIP ================= -->
+<div id="scrollOverlay">
+  <div class="scroll-viewer">
+    <img src="javi_scroll.jpg" alt="Javi photo strip">
+  </div>
+  <button class="scroll-continue" id="scrollContinue">Continue &raquo;</button>
 </div>
 
 <!-- ================= PHOTO GALLERY LIGHTBOX ================= -->
@@ -1181,7 +1232,11 @@ if(!introOverlay || !envelope){
   console.error('Envelope intro: missing element(s) — check that all IDs in the HTML match the script.');
 }
 
+const scrollOverlay = document.getElementById('scrollOverlay');
+const scrollContinue = document.getElementById('scrollContinue');
+
 function revealInvitation(){
+  scrollOverlay.classList.remove('show');
   document.body.classList.remove('locked');
   startMusic();
 }
@@ -1189,12 +1244,16 @@ function revealInvitation(){
 function openEnvelope(){
   if(envelope.classList.contains('opening')) return;
   envelope.classList.add('opening');
-  // wait for the envelope-open animation to finish, then fade it out and show the invitation
+  // wait for the envelope-open animation to finish, then fade it out and show the scrollable photo strip
   setTimeout(()=>{
     introOverlay.classList.add('hide');
-    revealInvitation();
+    setTimeout(()=>{
+      scrollOverlay.classList.add('show');
+    }, 400);
   }, 700);
 }
+
+scrollContinue.addEventListener('click', revealInvitation);
 
 // Listen on the envelope itself AND on the whole overlay (delegated),
 // so clicking anywhere near the envelope still works.
